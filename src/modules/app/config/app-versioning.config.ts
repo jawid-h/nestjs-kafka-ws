@@ -19,10 +19,7 @@ export class AppVersioningConfig {
         const validationErrors = await validate(instance);
 
         if (validationErrors.length > 0) {
-            throw new ConfigValidationError(
-                'App versioning config validation error',
-                mapValidationErrors(validationErrors),
-            );
+            throw new ConfigValidationError('App versioning config validation error', mapValidationErrors(validationErrors));
         }
 
         return instance;

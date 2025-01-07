@@ -1,10 +1,4 @@
-import {
-    BeforeCreate,
-    BeforeUpdate,
-    Entity,
-    PrimaryKey,
-    Property,
-} from '@mikro-orm/core';
+import { BeforeCreate, BeforeUpdate, Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { ObjectId } from '@mikro-orm/mongodb';
 import { BaseEntity } from './base.entity';
 import { DateToMillisTransformer } from '../transformers/date-to-millis.transformer';

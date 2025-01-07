@@ -30,18 +30,13 @@ export class NotificationsController {
 
     @Post('list')
     @ApiResponse({ type: PaginatedResponseDto })
-    async list(
-        @Payload() query: QueryDto<NotificationDto>,
-    ): Promise<PaginatedResponseDto<NotificationEntity>> {
+    async list(@Payload() query: QueryDto<NotificationDto>): Promise<PaginatedResponseDto<NotificationEntity>> {
         return this.notificationService.findAllPaginated(query);
     }
 
     @Put(':id/read')
     @ApiParam({ name: 'id', type: String })
-    async markRead(
-        @Param('id', ParseObjectIdPipe) id: ObjectId,
-        @Payload() data: ReadNotificationDto,
-    ) {
+    async markRead(@Param('id', ParseObjectIdPipe) id: ObjectId, @Payload() data: ReadNotificationDto) {
         return this.notificationService.update(id, data);
     }
 
@@ -50,13 +45,10 @@ export class NotificationsController {
         @Payload(AvroPayloadPipe) notification: CreateNotificationDto,
         @Ctx() kafkaContext: KafkaContext,
     ) {
-        const createdNotification =
-            await this.notificationService.create(notification);
+        const createdNotification = await this.notificationService.create(notification);
 
         await this.kafkaContextService.commitOffsets(kafkaContext);
 
-        await this.notificationsGateway.broadcastNotification(
-            createdNotification,
-        );
+        await this.notificationsGateway.broadcastNotification(createdNotification);
     }
 }

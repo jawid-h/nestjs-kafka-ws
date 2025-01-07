@@ -1,10 +1,4 @@
-import {
-    IsNotEmpty,
-    validate,
-    IsPort,
-    ValidateNested,
-    IsString,
-} from 'class-validator';
+import { IsNotEmpty, validate, IsPort, ValidateNested, IsString } from 'class-validator';
 import { registerAs } from '@nestjs/config';
 import { ConfigValidationError } from 'src/modules/core/errors/config/config-validation.error';
 import { mapValidationErrors } from 'src/modules/core/utils/map-validation-errors';
@@ -49,17 +43,11 @@ export class AppConfig {
         const validationErrors = await validate(instance);
 
         if (validationErrors.length > 0) {
-            throw new ConfigValidationError(
-                'App config validation error',
-                mapValidationErrors(validationErrors),
-            );
+            throw new ConfigValidationError('App config validation error', mapValidationErrors(validationErrors));
         }
 
         return instance;
     }
 }
 
-export const appConfig = registerAs(
-    'app',
-    async (): Promise<AppConfig> => AppConfig.fromEnv(process.env),
-);
+export const appConfig = registerAs('app', async (): Promise<AppConfig> => AppConfig.fromEnv(process.env));

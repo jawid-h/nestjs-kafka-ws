@@ -1,9 +1,4 @@
-import {
-    CanActivate,
-    ExecutionContext,
-    Injectable,
-    BadRequestException,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, BadRequestException } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 

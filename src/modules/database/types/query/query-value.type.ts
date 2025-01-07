@@ -26,10 +26,7 @@ import { QueryPath } from './query-path.type';
  * // Extracts the type of `profile` in the nested `user` object.
  * type ProfileType = QueryValue<ExampleType, 'user.profile'>; // { name: string; age: number; }
  */
-export type QueryValue<
-    T,
-    PathSegment extends QueryPath<T>,
-> = PathSegment extends `${infer Key}.${string}`
+export type QueryValue<T, PathSegment extends QueryPath<T>> = PathSegment extends `${infer Key}.${string}`
     ? Key extends keyof T
         ? QueryValue<T[Key], QueryPath<T[Key]>>
         : never

@@ -7,11 +7,7 @@ import { CRUDRepositoryInterface } from '../interfaces/crud-repository.interface
 import { CRUDTypeOrmRepository } from './crud-typeorm.repository';
 import { CRUDMikroOrmRepository } from './crud-mikroorm.repository';
 import { CRUDMongooseRepository } from './crud-mongoose.repository';
-import {
-    PROVIDER_MIKRO_ORM,
-    PROVIDER_MONGOOSE,
-    PROVIDER_TYPE_ORM,
-} from '../constants/providers.constants';
+import { PROVIDER_MIKRO_ORM, PROVIDER_MONGOOSE, PROVIDER_TYPE_ORM } from '../constants/providers.constants';
 import { MikroORM } from '@mikro-orm/core';
 import { MikroOrmMongoEntity } from '../entities/base-mongo-mikroorm.entity';
 import { MikroOrmPostgresqlEntity } from '../entities/base-postgresql-mikroorm.entity';
@@ -30,23 +26,14 @@ export class RepositoryManager {
         private readonly modelManager?: ModelManager<any>,
     ) {}
 
-    getRepository<T>(entity: {
-        new (): T;
-    }): CRUDRepositoryInterface<T, any, any> {
+    getRepository<T>(entity: { new (): T }): CRUDRepositoryInterface<T, any, any> {
         if (entity.prototype instanceof TypeOrmEntity) {
             if (!this.typeormDataSource) {
-                throw new Error(
-                    'TypeORM DataSource is required for TypeORM entities',
-                );
+                throw new Error('TypeORM DataSource is required for TypeORM entities');
             }
 
-            return new CRUDTypeOrmRepository(
-                this.typeormDataSource.getRepository(entity),
-            );
-        } else if (
-            entity.prototype instanceof MikroOrmMongoEntity ||
-            entity.prototype instanceof MikroOrmPostgresqlEntity
-        ) {
+            return new CRUDTypeOrmRepository(this.typeormDataSource.getRepository(entity));
+        } else if (entity.prototype instanceof MikroOrmMongoEntity || entity.prototype instanceof MikroOrmPostgresqlEntity) {
             if (!this.orm) {
                 throw new Error('MikroORM is required for MikroORM entities');
             }
@@ -54,9 +41,7 @@ export class RepositoryManager {
             return new CRUDMikroOrmRepository(this.orm, entity);
         } else if (entity.prototype instanceof MongooseEntity) {
             if (!this.modelManager) {
-                throw new Error(
-                    'ModelManager is required for Mongoose entities',
-                );
+                throw new Error('ModelManager is required for Mongoose entities');
             }
 
             const model = this.modelManager.getModel(entity.name);

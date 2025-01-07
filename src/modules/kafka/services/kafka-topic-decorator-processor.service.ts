@@ -21,17 +21,13 @@ export class KafkaTopicDecoratorProcessorService {
                 );
 
                 if (propertyMetadata) {
-                    const topic =
-                        this.configService.get<string>(propertyMetadata);
+                    const topic = this.configService.get<string>(propertyMetadata);
 
                     Reflect.decorate(
                         [EventPattern(topic)],
                         type.prototype,
                         propertyName,
-                        Reflect.getOwnPropertyDescriptor(
-                            type.prototype,
-                            propertyName,
-                        ),
+                        Reflect.getOwnPropertyDescriptor(type.prototype, propertyName),
                     );
                 }
             }

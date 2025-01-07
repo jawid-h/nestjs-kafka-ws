@@ -1,11 +1,7 @@
 import { Module } from '@nestjs/common';
 import { RepositoryManager } from './repositories/repository-manager';
 import { DataSource } from 'typeorm';
-import {
-    PROVIDER_MIKRO_ORM,
-    PROVIDER_MONGOOSE,
-    PROVIDER_TYPE_ORM,
-} from './constants/providers.constants';
+import { PROVIDER_MIKRO_ORM, PROVIDER_MONGOOSE, PROVIDER_TYPE_ORM } from './constants/providers.constants';
 import { MikroORM } from '@mikro-orm/core';
 import { ModelManager } from './repositories/model-manager';
 import { getMikroORMToken, MikroOrmModule } from '@mikro-orm/nestjs';
@@ -48,10 +44,7 @@ export class DatabaseModule {
         if (options.mikroORMOptions) {
             const { entities, contextName } = options.mikroORMOptions;
 
-            const mikroOrmModule = MikroOrmModule.forFeature(
-                entities,
-                contextName,
-            );
+            const mikroOrmModule = MikroOrmModule.forFeature(entities, contextName);
 
             imports.push(mikroOrmModule);
             exports.push(mikroOrmModule);
@@ -64,8 +57,7 @@ export class DatabaseModule {
         }
 
         if (options.mongooseOptions) {
-            const { entities, connectionName, modelManagerFactory } =
-                options.mongooseOptions;
+            const { entities, connectionName, modelManagerFactory } = options.mongooseOptions;
 
             const entityDefinitions = entities.map((e) => {
                 return {
@@ -74,14 +66,9 @@ export class DatabaseModule {
                 };
             });
 
-            const inject = entityDefinitions.map((e) =>
-                getModelToken(e.name, connectionName),
-            );
+            const inject = entityDefinitions.map((e) => getModelToken(e.name, connectionName));
 
-            const mongooseModule = MongooseModule.forFeature(
-                entityDefinitions,
-                connectionName,
-            );
+            const mongooseModule = MongooseModule.forFeature(entityDefinitions, connectionName);
 
             imports.push(mongooseModule);
             exports.push(mongooseModule);

@@ -14,10 +14,7 @@ export class MigrationsUpCommand extends CommandRunner {
         super();
     }
 
-    async run(
-        _passedParams: string[],
-        options?: Record<string, any>,
-    ): Promise<void> {
+    async run(_passedParams: string[], options?: Record<string, any>): Promise<void> {
         this.logger.log('Executing migrations');
 
         const from = options?.from;
@@ -31,12 +28,8 @@ export class MigrationsUpCommand extends CommandRunner {
             migrations,
         });
 
-        const resultListString = result
-            .map((migration) => migration.name)
-            .join('\n\t');
-        const output = !result.length
-            ? 'none'
-            : `\n\n\t${resultListString}\n\n`;
+        const resultListString = result.map((migration) => migration.name).join('\n\t');
+        const output = !result.length ? 'none' : `\n\n\t${resultListString}\n\n`;
 
         this.logger.log(`List of executed migrations: ${output}`);
     }

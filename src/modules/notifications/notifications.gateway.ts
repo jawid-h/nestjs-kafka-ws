@@ -1,10 +1,4 @@
-import {
-    ConnectedSocket,
-    MessageBody,
-    SubscribeMessage,
-    WebSocketGateway,
-    WebSocketServer,
-} from '@nestjs/websockets';
+import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import { NotificationEntity } from './entities/notification.entity';
 import { NotificationsService } from './services/notifications.service';
@@ -45,10 +39,7 @@ export class NotificationsGateway {
         query: QueryDto<NotificationDto>,
         @ConnectedSocket() client: Socket,
     ) {
-        this.logger.debug(
-            { query },
-            'searching for all notifications with query',
-        );
+        this.logger.debug({ query }, 'searching for all notifications with query');
 
         const result = await this.notificationsService.findAll(query);
 
@@ -63,10 +54,7 @@ export class NotificationsGateway {
     ) {
         this.logger.debug({ data }, 'marking notification as read');
 
-        const result = await this.notificationsService.update(
-            ObjectId.createFromHexString(data.id),
-            { isRead: true },
-        );
+        const result = await this.notificationsService.update(ObjectId.createFromHexString(data.id), { isRead: true });
 
         client.emit(TOPIC_NOTIFICATION_MARK_READ_RESPONSE, result);
     }

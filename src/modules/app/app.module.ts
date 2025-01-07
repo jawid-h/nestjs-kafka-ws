@@ -13,10 +13,7 @@ import { LoggerModule } from 'nestjs-pino';
 // import configuration files separately
 import { kafkaConfig } from 'src/modules/kafka/config/kafka.config';
 import { appConfig } from 'src/modules/app/config/app.config';
-import {
-    PinoConfig,
-    pinoConfig,
-} from 'src/modules/app/config/pino/pino.config';
+import { PinoConfig, pinoConfig } from 'src/modules/app/config/pino/pino.config';
 
 import pino from 'pino';
 import path from 'path';
@@ -26,28 +23,14 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { notificationsConfig } from '../notifications/config/notifications.config';
-import {
-    databaseConfig,
-    DatabaseMikroormSourceConfig,
-    DatabaseSourceConnectionType,
-} from '../database/config/database.config';
-import {
-    DATABASE_SOURCE_SOURCE_A,
-    DATABASE_SOURCE_SOURCE_B,
-    DATABASE_SOURCE_SOURCE_C,
-} from './constants/database.constants';
+import { databaseConfig, DatabaseMikroormSourceConfig, DatabaseSourceConnectionType } from '../database/config/database.config';
+import { DATABASE_SOURCE_SOURCE_A, DATABASE_SOURCE_SOURCE_B, DATABASE_SOURCE_SOURCE_C } from './constants/database.constants';
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
-            load: [
-                appConfig,
-                kafkaConfig,
-                pinoConfig,
-                notificationsConfig,
-                databaseConfig,
-            ],
+            load: [appConfig, kafkaConfig, pinoConfig, notificationsConfig, databaseConfig],
         }),
         LoggerModule.forRootAsync({
             imports: [ConfigModule],
@@ -81,15 +64,10 @@ import {
             useFactory: (configService: ConfigService) => {
                 const databaseConfig = configService.get('database');
 
-                const sourceConfig: DatabaseMikroormSourceConfig =
-                    databaseConfig.sources[DATABASE_SOURCE_SOURCE_A];
+                const sourceConfig: DatabaseMikroormSourceConfig = databaseConfig.sources[DATABASE_SOURCE_SOURCE_A];
 
                 return {
-                    driver:
-                        sourceConfig.connectionType ===
-                        DatabaseSourceConnectionType.Mongodb
-                            ? MongoDriver
-                            : PostgreSqlDriver,
+                    driver: sourceConfig.connectionType === DatabaseSourceConnectionType.Mongodb ? MongoDriver : PostgreSqlDriver,
                     clientUrl: sourceConfig.connectionString,
                     dbName: sourceConfig.databaseName,
                     entities: sourceConfig.entityModules,
@@ -104,15 +82,10 @@ import {
             useFactory: (configService: ConfigService) => {
                 const databaseConfig = configService.get('database');
 
-                const sourceConfig: DatabaseMikroormSourceConfig =
-                    databaseConfig.sources[DATABASE_SOURCE_SOURCE_B];
+                const sourceConfig: DatabaseMikroormSourceConfig = databaseConfig.sources[DATABASE_SOURCE_SOURCE_B];
 
                 return {
-                    driver:
-                        sourceConfig.connectionType ===
-                        DatabaseSourceConnectionType.Mongodb
-                            ? MongoDriver
-                            : PostgreSqlDriver,
+                    driver: sourceConfig.connectionType === DatabaseSourceConnectionType.Mongodb ? MongoDriver : PostgreSqlDriver,
                     clientUrl: sourceConfig.connectionString,
                     dbName: sourceConfig.databaseName,
                     entities: sourceConfig.entityModules,
@@ -128,8 +101,7 @@ import {
             useFactory: (configService: ConfigService) => {
                 const databaseConfig = configService.get('database');
 
-                const sourceConfig =
-                    databaseConfig.sources[DATABASE_SOURCE_SOURCE_A];
+                const sourceConfig = databaseConfig.sources[DATABASE_SOURCE_SOURCE_A];
 
                 return {
                     uri: sourceConfig.connectionString,

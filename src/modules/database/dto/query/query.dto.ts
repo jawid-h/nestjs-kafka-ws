@@ -1,11 +1,5 @@
 import { Type } from 'class-transformer';
-import {
-    IsOptional,
-    IsInt,
-    IsArray,
-    Min,
-    ValidateNested,
-} from 'class-validator';
+import { IsOptional, IsInt, IsArray, Min, ValidateNested } from 'class-validator';
 import { BaseQueryInterface } from '../../interfaces/query/base-query.interface';
 import { QueryFilterDto } from './query-filter.dto';
 import { QuerySortingDto } from './query-sorting.dto';

@@ -24,10 +24,6 @@ import { KafkaContextService } from './services/kafka-context.service';
         }),
     ],
     providers: [KafkaTopicDecoratorProcessorService, KafkaContextService],
-    exports: [
-        SchemaRegistryModule,
-        KafkaTopicDecoratorProcessorService,
-        KafkaContextService,
-    ],
+    exports: [SchemaRegistryModule, KafkaTopicDecoratorProcessorService, KafkaContextService],
 })
 export class KafkaModule {}

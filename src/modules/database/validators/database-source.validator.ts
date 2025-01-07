@@ -9,9 +9,7 @@ import {
 } from 'class-validator';
 
 @ValidatorConstraint({ async: false })
-export class IsValidDatabaseSourceConstraint
-    implements ValidatorConstraintInterface
-{
+export class IsValidDatabaseSourceConstraint implements ValidatorConstraintInterface {
     private errors: Record<string, ValidationError[]> = {};
 
     validate(value: any): boolean {

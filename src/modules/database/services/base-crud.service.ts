@@ -15,13 +15,8 @@ export abstract class BaseCRUDService<T, ID> {
         return this.repository.findAll(query);
     }
 
-    async findAllPaginated<U>(
-        query: QueryDto<U>,
-    ): Promise<PaginatedResponseDto<T>> {
-        this.logger.debug(
-            { query },
-            'searching for all entities (paginated) with query',
-        );
+    async findAllPaginated<U>(query: QueryDto<U>): Promise<PaginatedResponseDto<T>> {
+        this.logger.debug({ query }, 'searching for all entities (paginated) with query');
 
         return this.repository.findAllPaginated(query);
     }

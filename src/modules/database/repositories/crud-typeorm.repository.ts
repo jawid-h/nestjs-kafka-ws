@@ -3,9 +3,7 @@ import { CRUDRepositoryInterface } from '../interfaces/crud-repository.interface
 import { QueryDto } from '../dto/query/query.dto';
 import { PaginatedResponseDto } from '../dto/paginated-response.dto';
 
-export class CRUDTypeOrmRepository<T, ID>
-    implements CRUDRepositoryInterface<T, ID, any>
-{
+export class CRUDTypeOrmRepository<T, ID> implements CRUDRepositoryInterface<T, ID, any> {
     constructor(private readonly repository: Repository<T>) {}
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

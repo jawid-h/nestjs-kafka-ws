@@ -18,9 +18,7 @@ async function bootstrap() {
 
     // Process all KafkaTopicFromConfig decorators
     // for all controllers that listen to Kafka messages
-    app.get(KafkaTopicDecoratorProcessorService).processKafkaDecorators([
-        NotificationsController,
-    ]);
+    app.get(KafkaTopicDecoratorProcessorService).processKafkaDecorators([NotificationsController]);
 
     // Get configuration service at the start
     // to be able to configure app itself
@@ -47,11 +45,7 @@ async function bootstrap() {
         .addBearerAuth()
         .build();
 
-    SwaggerModule.setup(
-        'api/v1/docs',
-        app,
-        SwaggerModule.createDocument(app, apiDocumentV1),
-    );
+    SwaggerModule.setup('api/v1/docs', app, SwaggerModule.createDocument(app, apiDocumentV1));
 
     // Get corresponding Kafka configuration
     const kafkaConfig = configService.get<KafkaConfig>('kafka');

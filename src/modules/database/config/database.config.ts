@@ -1,13 +1,6 @@
 import { registerAs } from '@nestjs/config';
 import { Type } from 'class-transformer';
-import {
-    IsArray,
-    IsEnum,
-    IsNotEmpty,
-    IsString,
-    validate,
-    ValidateNested,
-} from 'class-validator';
+import { IsArray, IsEnum, IsNotEmpty, IsString, validate, ValidateNested } from 'class-validator';
 import { ConfigValidationError } from 'src/modules/core/errors/config/config-validation.error';
 import { mapValidationErrors } from 'src/modules/core/utils/map-validation-errors';
 import { IsValidDatabaseSource } from '../validators/database-source.validator';
@@ -50,10 +43,8 @@ export class DatabaseBaseSourceConfig {
     databaseName: string;
 
     constructor(sourceName: string, env: Record<string, string>) {
-        this.connectionString =
-            env[`DATABASE_${sourceName.toUpperCase()}_CONNECTION_STRING`];
-        this.databaseName =
-            env[`DATABASE_${sourceName.toUpperCase()}_DATABASE_NAME`];
+        this.connectionString = env[`DATABASE_${sourceName.toUpperCase()}_CONNECTION_STRING`];
+        this.databaseName = env[`DATABASE_${sourceName.toUpperCase()}_DATABASE_NAME`];
     }
 }
 
@@ -72,22 +63,15 @@ export class DatabaseMikroormSourceConfig extends DatabaseBaseSourceConfig {
     constructor(sourceName: string, env: Record<string, string>) {
         super(sourceName, env);
 
-        this.connectionType = env[
-            `DATABASE_${sourceName.toUpperCase()}_CONNECTION_TYPE`
-        ] as DatabaseSourceConnectionType;
+        this.connectionType = env[`DATABASE_${sourceName.toUpperCase()}_CONNECTION_TYPE`] as DatabaseSourceConnectionType;
 
-        const moduleNamesString =
-            env[`DATABASE_${sourceName.toUpperCase()}_ENTITY_MODULES`];
+        const moduleNamesString = env[`DATABASE_${sourceName.toUpperCase()}_ENTITY_MODULES`];
 
         if (moduleNamesString !== undefined) {
             const moduleNames = moduleNamesString.split(',');
 
-            this.entityModules = moduleNames.map((moduleName) =>
-                this.getEntityPath(moduleName, false),
-            );
-            this.entityModulesTs = moduleNames.map((moduleName) =>
-                this.getEntityPath(moduleName, true),
-            );
+            this.entityModules = moduleNames.map((moduleName) => this.getEntityPath(moduleName, false));
+            this.entityModulesTs = moduleNames.map((moduleName) => this.getEntityPath(moduleName, true));
         }
     }
 
@@ -104,57 +88,35 @@ export class DatabaseConfig {
     enabledSources: DatabaseEnabledSource[];
 
     @IsValidDatabaseSource()
-    sources: Record<
-        string,
-        DatabaseMikroormSourceConfig | DatabaseMongooseSourceConfig
-    >;
+    sources: Record<string, DatabaseMikroormSourceConfig | DatabaseMongooseSourceConfig>;
 
-    public static async fromEnv(
-        env: Record<string, string>,
-    ): Promise<DatabaseConfig> {
+    public static async fromEnv(env: Record<string, string>): Promise<DatabaseConfig> {
         const instance = new DatabaseConfig();
 
         instance.enabledSources = (env.DATABASE_ENABLED_SOURCES || '')
             .split(',')
             .map((source) => new DatabaseEnabledSource(source));
 
-        instance.sources = instance.enabledSources.reduce(
-            (acc, enabledSource) => {
-                const sourceName = enabledSource.name;
+        instance.sources = instance.enabledSources.reduce((acc, enabledSource) => {
+            const sourceName = enabledSource.name;
 
-                if (enabledSource.type === DatabaseEnabledSourceType.Mikroorm) {
-                    acc[sourceName] = new DatabaseMikroormSourceConfig(
-                        sourceName,
-                        env,
-                    );
-                } else if (
-                    enabledSource.type === DatabaseEnabledSourceType.Mongoose
-                ) {
-                    acc[sourceName] = new DatabaseMongooseSourceConfig(
-                        sourceName,
-                        env,
-                    );
-                }
+            if (enabledSource.type === DatabaseEnabledSourceType.Mikroorm) {
+                acc[sourceName] = new DatabaseMikroormSourceConfig(sourceName, env);
+            } else if (enabledSource.type === DatabaseEnabledSourceType.Mongoose) {
+                acc[sourceName] = new DatabaseMongooseSourceConfig(sourceName, env);
+            }
 
-                return acc;
-            },
-            {},
-        );
+            return acc;
+        }, {});
 
         const validationErrors = await validate(instance);
 
         if (validationErrors.length > 0) {
-            throw new ConfigValidationError(
-                'Database config validation error',
-                mapValidationErrors(validationErrors),
-            );
+            throw new ConfigValidationError('Database config validation error', mapValidationErrors(validationErrors));
         }
 
         return instance;
     }
 }
 
-export const databaseConfig = registerAs(
-    'database',
-    async (): Promise<DatabaseConfig> => DatabaseConfig.fromEnv(process.env),
-);
+export const databaseConfig = registerAs('database', async (): Promise<DatabaseConfig> => DatabaseConfig.fromEnv(process.env));

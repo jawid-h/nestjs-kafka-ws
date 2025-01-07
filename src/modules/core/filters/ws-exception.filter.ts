@@ -1,10 +1,4 @@
-import {
-    ArgumentsHost,
-    Catch,
-    ExceptionFilter,
-    BadRequestException,
-    Injectable,
-} from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, BadRequestException, Injectable } from '@nestjs/common';
 import { WsException } from '@nestjs/websockets';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import { Socket } from 'net';
@@ -18,10 +12,7 @@ export class WsExceptionFilter implements ExceptionFilter {
     ) {}
 
     catch(exception: unknown, host: ArgumentsHost) {
-        this.logger.error(
-            { exception },
-            'An error occurred during the handling of a WebSocket event',
-        );
+        this.logger.error({ exception }, 'An error occurred during the handling of a WebSocket event');
 
         const ctx = host.switchToWs();
         const client: Socket = ctx.getClient<Socket>();

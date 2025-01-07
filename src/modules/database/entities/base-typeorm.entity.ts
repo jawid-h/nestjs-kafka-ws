@@ -1,8 +1,4 @@
-import {
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    UpdateDateColumn,
-} from 'typeorm';
+import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { BaseEntity } from './base.entity';
 
 export abstract class TypeOrmEntity<ID = string> extends BaseEntity<ID> {

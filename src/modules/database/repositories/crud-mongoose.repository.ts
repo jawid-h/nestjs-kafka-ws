@@ -4,9 +4,7 @@ import { QueryDto } from '../dto/query/query.dto';
 import { convertOperators } from '../utils/query/convert-operators';
 import { PaginatedResponseDto } from '../dto/paginated-response.dto';
 
-export class CRUDMongooseRepository<T, ID>
-    implements CRUDRepositoryInterface<T, ID, any>
-{
+export class CRUDMongooseRepository<T, ID> implements CRUDRepositoryInterface<T, ID, any> {
     constructor(private readonly model: Model<T>) {}
 
     async findAll<U>(query: QueryDto<U>): Promise<T[]> {
@@ -21,9 +19,7 @@ export class CRUDMongooseRepository<T, ID>
         return this.model.find(filters, null, options).exec();
     }
 
-    async findAllPaginated<U>(
-        query: QueryDto<U>,
-    ): Promise<PaginatedResponseDto<T>> {
+    async findAllPaginated<U>(query: QueryDto<U>): Promise<PaginatedResponseDto<T>> {
         const filters = this.buildFilters(query);
 
         const options = {
@@ -35,12 +31,7 @@ export class CRUDMongooseRepository<T, ID>
         const data = await this.model.find(filters, null, options).exec();
         const totalCount = await this.model.countDocuments(filters).exec();
 
-        return new PaginatedResponseDto(
-            data,
-            totalCount,
-            query.page,
-            query.size,
-        );
+        return new PaginatedResponseDto(data, totalCount, query.page, query.size);
     }
 
     async findOne(id: ID): Promise<T | null> {
@@ -54,9 +45,7 @@ export class CRUDMongooseRepository<T, ID>
     }
 
     async update(id: ID, updateData: Partial<T>): Promise<T | null> {
-        return this.model
-            .findByIdAndUpdate(id, updateData, { new: true })
-            .exec();
+        return this.model.findByIdAndUpdate(id, updateData, { new: true }).exec();
     }
 
     async delete(id: ID): Promise<T | null> {

@@ -19,14 +19,9 @@ export class GetExecutedMigrationsCommand extends CommandRunner {
 
         const result = await migrator.getExecutedMigrations();
         const resultListString = result
-            .map(
-                (migration) =>
-                    `${migration.name}\t${migration.executed_at.toISOString()}`,
-            )
+            .map((migration) => `${migration.name}\t${migration.executed_at.toISOString()}`)
             .join('\n\t');
-        const output = !result.length
-            ? 'none'
-            : `\n\n\t${resultListString}\n\n`;
+        const output = !result.length ? 'none' : `\n\n\t${resultListString}\n\n`;
 
         this.logger.log(`List of executed migrations: ${output}`);
     }

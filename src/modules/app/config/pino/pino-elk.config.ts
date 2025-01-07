@@ -1,12 +1,4 @@
-import {
-    IsInt,
-    IsNotEmpty,
-    IsString,
-    IsUrl,
-    Min,
-    validate,
-    ValidateNested,
-} from 'class-validator';
+import { IsInt, IsNotEmpty, IsString, IsUrl, Min, validate, ValidateNested } from 'class-validator';
 import { PinoBaseTargetConfig } from './pino-base.config';
 import pinoElasticsearch from 'pino-elasticsearch';
 import { instanceToPlain, Type } from 'class-transformer';
@@ -29,9 +21,7 @@ export class PinoElasticsearchTargetAuthOptions {
         const validationErrors = await validate(instance);
 
         if (validationErrors.length > 0) {
-            throw new Error(
-                `Validation failed for PinoElasticsearchTargetAuthOptions: ${validationErrors}`,
-            );
+            throw new Error(`Validation failed for PinoElasticsearchTargetAuthOptions: ${validationErrors}`);
         }
 
         return instance;
@@ -72,9 +62,7 @@ export class PinoElasticsearchTargetOptions {
         const validationErrors = await validate(instance);
 
         if (validationErrors.length > 0) {
-            throw new Error(
-                `Validation failed for PinoElasticsearchTargetOptions: ${validationErrors}`,
-            );
+            throw new Error(`Validation failed for PinoElasticsearchTargetOptions: ${validationErrors}`);
         }
 
         return instance;
@@ -105,9 +93,7 @@ export class PinoElasticsearchTargetConfig extends PinoBaseTargetConfig {
         const validationErrors = await validate(instance);
 
         if (validationErrors.length > 0) {
-            throw new Error(
-                `Validation failed for PinoElasticsearchTargetConfig: ${validationErrors}`,
-            );
+            throw new Error(`Validation failed for PinoElasticsearchTargetConfig: ${validationErrors}`);
         }
 
         return instance;

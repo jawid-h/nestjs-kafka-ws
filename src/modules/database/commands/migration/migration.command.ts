@@ -22,8 +22,6 @@ export class MigrationCommand extends CommandRunner {
     private readonly logger: Logger = new Logger(MigrationCommand.name);
 
     async run(): Promise<void> {
-        this.logger.log(
-            'Available commands: up, down, needed, pending, executed',
-        );
+        this.logger.log('Available commands: up, down, needed, pending, executed');
     }
 }

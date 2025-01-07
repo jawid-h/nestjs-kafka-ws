@@ -18,12 +18,8 @@ export class GetPendingMigrationsCommand extends CommandRunner {
         const migrator = this.orm.getMigrator();
 
         const result = await migrator.getPendingMigrations();
-        const resultListString = result
-            .map((migration) => migration.name)
-            .join('\n\t');
-        const output = !result.length
-            ? 'none'
-            : `\n\n\t${resultListString}\n\n`;
+        const resultListString = result.map((migration) => migration.name).join('\n\t');
+        const output = !result.length ? 'none' : `\n\n\t${resultListString}\n\n`;
 
         this.logger.log(`List of pening migrations: ${output}`);
     }

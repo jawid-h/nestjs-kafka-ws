@@ -1,8 +1,4 @@
-import {
-    ValidatorConstraint,
-    ValidatorConstraintInterface,
-    ValidationArguments,
-} from 'class-validator';
+import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments } from 'class-validator';
 
 @ValidatorConstraint({ name: 'isIpPort', async: false })
 export class IsIpPortValidator implements ValidatorConstraintInterface {

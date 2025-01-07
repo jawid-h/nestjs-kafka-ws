@@ -5,9 +5,7 @@ import { FilterOperator } from '../interfaces/query/query-filter.interface';
 import { convertOperators } from '../utils/query/convert-operators';
 import { PaginatedResponseDto } from '../dto/paginated-response.dto';
 
-export class CRUDMikroOrmRepository<T extends object, ID>
-    implements CRUDRepositoryInterface<T, ID, FilterQuery<T>>
-{
+export class CRUDMikroOrmRepository<T extends object, ID> implements CRUDRepositoryInterface<T, ID, FilterQuery<T>> {
     private repository: EntityRepository<T>;
     private em;
 
@@ -32,9 +30,7 @@ export class CRUDMikroOrmRepository<T extends object, ID>
         return this.repository.findAll(options);
     }
 
-    async findAllPaginated<U>(
-        queryDto: QueryDto<U>,
-    ): Promise<PaginatedResponseDto<T>> {
+    async findAllPaginated<U>(queryDto: QueryDto<U>): Promise<PaginatedResponseDto<T>> {
         const filters = this.buildFilters(queryDto);
 
         const options: any = {
@@ -43,17 +39,9 @@ export class CRUDMikroOrmRepository<T extends object, ID>
             offset: (queryDto.page - 1) * queryDto.size,
         };
 
-        const [data, count] = await this.repository.findAndCount(
-            filters,
-            options,
-        );
+        const [data, count] = await this.repository.findAndCount(filters, options);
 
-        return new PaginatedResponseDto(
-            data,
-            count,
-            queryDto.page,
-            queryDto.size,
-        );
+        return new PaginatedResponseDto(data, count, queryDto.page, queryDto.size);
     }
 
     async findOne(id: ID): Promise<T | null> {
@@ -99,10 +87,7 @@ export class CRUDMikroOrmRepository<T extends object, ID>
             const filterByPath = result[filter.path as string] || {};
 
             // TODO: is there a better way?
-            const dbType =
-                this.orm.config.get('driver').name == 'MongoDriver'
-                    ? 'mongo'
-                    : 'postgres';
+            const dbType = this.orm.config.get('driver').name == 'MongoDriver' ? 'mongo' : 'postgres';
 
             result[filter.path as string] = {
                 ...filterByPath,

@@ -18,10 +18,7 @@ export class NotificationConfig {
         const validationErrors = await validate(instance);
 
         if (validationErrors.length > 0) {
-            throw new ConfigValidationError(
-                'Notifications config validation error',
-                mapValidationErrors(validationErrors),
-            );
+            throw new ConfigValidationError('Notifications config validation error', mapValidationErrors(validationErrors));
         }
 
         return instance;
@@ -30,6 +27,5 @@ export class NotificationConfig {
 
 export const notificationsConfig = registerAs(
     'notifications',
-    async (): Promise<NotificationConfig> =>
-        NotificationConfig.fromEnv(process.env),
+    async (): Promise<NotificationConfig> => NotificationConfig.fromEnv(process.env),
 );

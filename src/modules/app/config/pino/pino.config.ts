@@ -1,10 +1,5 @@
 import { registerAs } from '@nestjs/config';
-import {
-    IsNotEmpty,
-    IsString,
-    validate,
-    ValidateNested,
-} from 'class-validator';
+import { IsNotEmpty, IsString, validate, ValidateNested } from 'class-validator';
 import { mapValidationErrors } from 'src/modules/core/utils/map-validation-errors';
 
 import { ConfigValidationError } from 'src/modules/core/errors/config/config-validation.error';
@@ -58,17 +53,11 @@ export class PinoConfig {
         const validationErrors = await validate(instance);
 
         if (validationErrors.length > 0) {
-            throw new ConfigValidationError(
-                'Pino config validation error',
-                mapValidationErrors(validationErrors),
-            );
+            throw new ConfigValidationError('Pino config validation error', mapValidationErrors(validationErrors));
         }
 
         return instance;
     }
 }
 
-export const pinoConfig = registerAs(
-    'pino',
-    async (): Promise<PinoConfig> => PinoConfig.fromEnv(process.env),
-);
+export const pinoConfig = registerAs('pino', async (): Promise<PinoConfig> => PinoConfig.fromEnv(process.env));

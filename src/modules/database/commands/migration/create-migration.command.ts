@@ -14,10 +14,7 @@ export class CreateMigrationCommand extends CommandRunner {
         super();
     }
 
-    async run(
-        _passedParams: string[],
-        options?: Record<string, any>,
-    ): Promise<void> {
+    async run(_passedParams: string[], options?: Record<string, any>): Promise<void> {
         this.logger.log('Creating migration');
 
         const name = options?.name;
@@ -26,12 +23,7 @@ export class CreateMigrationCommand extends CommandRunner {
         const isInitial = options?.initial;
 
         const migrator = this.orm.getMigrator();
-        const result = await migrator.createMigration(
-            path,
-            isBlank,
-            isInitial,
-            name,
-        );
+        const result = await migrator.createMigration(path, isBlank, isInitial, name);
 
         this.logger.log(`Migration created: ${result.fileName}`);
     }

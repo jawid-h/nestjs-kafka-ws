@@ -15,9 +15,7 @@ export class PinoPrettyTargetOptions {
         const validationErrors = await validate(instance);
 
         if (validationErrors.length > 0) {
-            throw new Error(
-                `Validation failed for PinoPrettyTargetOptions: ${validationErrors}`,
-            );
+            throw new Error(`Validation failed for PinoPrettyTargetOptions: ${validationErrors}`);
         }
 
         return instance;
@@ -48,9 +46,7 @@ export class PinoPrettyTargetConfig extends PinoBaseTargetConfig {
         const validationErrors = await validate(instance);
 
         if (validationErrors.length > 0) {
-            throw new Error(
-                `Validation failed for PinoPrettyTargetConfig: ${validationErrors}`,
-            );
+            throw new Error(`Validation failed for PinoPrettyTargetConfig: ${validationErrors}`);
         }
 
         return instance;

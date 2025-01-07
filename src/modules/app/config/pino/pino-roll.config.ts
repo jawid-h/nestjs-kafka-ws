@@ -1,13 +1,4 @@
-import {
-    IsBoolean,
-    IsInt,
-    IsNotEmpty,
-    IsPositive,
-    IsString,
-    Min,
-    validate,
-    ValidateNested,
-} from 'class-validator';
+import { IsBoolean, IsInt, IsNotEmpty, IsPositive, IsString, Min, validate, ValidateNested } from 'class-validator';
 import { PinoBaseTargetConfig } from './pino-base.config';
 import { instanceToPlain, Type } from 'class-transformer';
 import pinoRoll from 'pino-roll';
@@ -26,9 +17,7 @@ export class PinoRollerTargetLimitOptions {
         const validationErrors = await validate(instance);
 
         if (validationErrors.length > 0) {
-            throw new Error(
-                `Validation failed for PinoRollerTargetLimitOptions: ${validationErrors}`,
-            );
+            throw new Error(`Validation failed for PinoRollerTargetLimitOptions: ${validationErrors}`);
         }
 
         return instance;
@@ -71,9 +60,7 @@ export class PinoRollerTargetOptions {
         const validationErrors = await validate(instance);
 
         if (validationErrors.length > 0) {
-            throw new Error(
-                `Validation failed for PinoRollerTargetOptions: ${validationErrors}`,
-            );
+            throw new Error(`Validation failed for PinoRollerTargetOptions: ${validationErrors}`);
         }
 
         return instance;
@@ -104,9 +91,7 @@ export class PinoRollerTargetConfig extends PinoBaseTargetConfig {
         const validationErrors = await validate(instance);
 
         if (validationErrors.length > 0) {
-            throw new Error(
-                `Validation failed for PinoRollerTargetConfig: ${validationErrors}`,
-            );
+            throw new Error(`Validation failed for PinoRollerTargetConfig: ${validationErrors}`);
         }
 
         return instance;

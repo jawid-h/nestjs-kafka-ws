@@ -30,17 +30,11 @@ export class KafkaConfig {
         const validationErrors = await validate(instance);
 
         if (validationErrors.length > 0) {
-            throw new ConfigValidationError(
-                'Kafka config validation error',
-                mapValidationErrors(validationErrors),
-            );
+            throw new ConfigValidationError('Kafka config validation error', mapValidationErrors(validationErrors));
         }
 
         return instance;
     }
 }
 
-export const kafkaConfig = registerAs(
-    'kafka',
-    async (): Promise<KafkaConfig> => KafkaConfig.fromEnv(process.env),
-);
+export const kafkaConfig = registerAs('kafka', async (): Promise<KafkaConfig> => KafkaConfig.fromEnv(process.env));

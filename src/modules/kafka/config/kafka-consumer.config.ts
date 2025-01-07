@@ -1,10 +1,4 @@
-import {
-    IsString,
-    IsNotEmpty,
-    validate,
-    IsInt,
-    IsPositive,
-} from 'class-validator';
+import { IsString, IsNotEmpty, validate, IsInt, IsPositive } from 'class-validator';
 import { ConfigValidationError } from 'src/modules/core/errors/config/config-validation.error';
 import { mapValidationErrors } from 'src/modules/core/utils/map-validation-errors';
 
@@ -21,18 +15,12 @@ export class KafkaConsumerConfig {
         const instance = new KafkaConsumerConfig();
 
         instance.groupId = env.KAFKA_GROUP_ID || '';
-        instance.sessionTimeout = parseInt(
-            env.KAFKA_CONSUMER_SESSION_TIMEOUT || '30000',
-            10,
-        );
+        instance.sessionTimeout = parseInt(env.KAFKA_CONSUMER_SESSION_TIMEOUT || '30000', 10);
 
         const validationErrors = await validate(instance);
 
         if (validationErrors.length > 0) {
-            throw new ConfigValidationError(
-                'Kafka consumer config validation error',
-                mapValidationErrors(validationErrors),
-            );
+            throw new ConfigValidationError('Kafka consumer config validation error', mapValidationErrors(validationErrors));
         }
 
         return instance;

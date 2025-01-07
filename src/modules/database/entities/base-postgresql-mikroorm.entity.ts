@@ -1,17 +1,9 @@
-import {
-    BeforeCreate,
-    BeforeUpdate,
-    Entity,
-    PrimaryKey,
-    Property,
-} from '@mikro-orm/core';
+import { BeforeCreate, BeforeUpdate, Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { BaseEntity } from './base.entity';
 import { DateToMillisTransformer } from '../transformers/date-to-millis.transformer';
 
 @Entity()
-export abstract class MikroOrmPostgresqlEntity<
-    ID = number,
-> extends BaseEntity<ID> {
+export abstract class MikroOrmPostgresqlEntity<ID = number> extends BaseEntity<ID> {
     @PrimaryKey()
     id: ID;
 

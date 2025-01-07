@@ -1,8 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-    FilterOperator,
-    QueryFilterInterface,
-} from '../../interfaces/query/query-filter.interface';
+import { FilterOperator, QueryFilterInterface } from '../../interfaces/query/query-filter.interface';
 import { QueryPath } from '../../types/query/query-path.type';
 import { QueryValue } from '../../types/query/query-value.type';
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
