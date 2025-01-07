@@ -1,8 +1,8 @@
 import { Type } from 'class-transformer';
 import { NotificationsKafkaTopics } from './notifications-kafka-topics.config';
 import { validate, ValidateNested } from 'class-validator';
-import { ConfigValidationError } from 'src/modules/core/errors/config/config-validation.error';
-import { mapValidationErrors } from 'src/modules/core/utils/map-validation-errors';
+import { ConfigValidationError } from 'src/core/errors/config/config-validation.error';
+import { mapValidationErrors } from 'src/core/utils/map-validation-errors';
 import { registerAs } from '@nestjs/config';
 
 export class NotificationConfig {

@@ -1,8 +1,8 @@
 import { registerAs } from '@nestjs/config';
 import { Type } from 'class-transformer';
 import { IsArray, IsEnum, IsNotEmpty, IsString, validate, ValidateNested } from 'class-validator';
-import { ConfigValidationError } from 'src/modules/core/errors/config/config-validation.error';
-import { mapValidationErrors } from 'src/modules/core/utils/map-validation-errors';
+import { ConfigValidationError } from 'src/core/errors/config/config-validation.error';
+import { mapValidationErrors } from 'src/core/utils/map-validation-errors';
 import { IsValidDatabaseSource } from '../validators/database-source.validator';
 
 export enum DatabaseSourceConnectionType {

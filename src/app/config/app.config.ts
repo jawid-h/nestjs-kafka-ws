@@ -1,7 +1,7 @@
 import { IsNotEmpty, validate, IsPort, ValidateNested, IsString } from 'class-validator';
 import { registerAs } from '@nestjs/config';
-import { ConfigValidationError } from 'src/modules/core/errors/config/config-validation.error';
-import { mapValidationErrors } from 'src/modules/core/utils/map-validation-errors';
+import { ConfigValidationError } from 'src/core/errors/config/config-validation.error';
+import { mapValidationErrors } from 'src/core/utils/map-validation-errors';
 import { Type } from 'class-transformer';
 import { AppVersioningConfig } from './app-versioning.config';
 

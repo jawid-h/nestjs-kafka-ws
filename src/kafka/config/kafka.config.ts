@@ -1,8 +1,8 @@
 import { ValidateNested, validate } from 'class-validator';
 import { Type } from 'class-transformer';
 import { registerAs } from '@nestjs/config';
-import { ConfigValidationError } from 'src/modules/core/errors/config/config-validation.error';
-import { mapValidationErrors } from 'src/modules/core/utils/map-validation-errors';
+import { ConfigValidationError } from 'src/core/errors/config/config-validation.error';
+import { mapValidationErrors } from 'src/core/utils/map-validation-errors';
 import { KafkaConfigSchemaRegistry } from './kafka-schema-registry.config';
 import { KafkaClientConfig } from './kafka-client.config';
 import { KafkaConsumerConfig } from './kafka-consumer.config';

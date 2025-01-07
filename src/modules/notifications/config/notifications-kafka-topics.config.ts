@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString, validate } from 'class-validator';
-import { ConfigValidationError } from 'src/modules/core/errors/config/config-validation.error';
-import { mapValidationErrors } from 'src/modules/core/utils/map-validation-errors';
+import { ConfigValidationError } from 'src/core/errors/config/config-validation.error';
+import { mapValidationErrors } from 'src/core/utils/map-validation-errors';
 
 export class NotificationsKafkaTopics {
     @IsString()

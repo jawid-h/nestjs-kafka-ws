@@ -1,7 +1,7 @@
 import { IsArray, IsInt, IsNotEmpty, IsPositive, IsString, validate } from 'class-validator';
-import { IsIpPort } from 'src/modules/core/decorators/is-ip-port.decorator';
-import { ConfigValidationError } from 'src/modules/core/errors/config/config-validation.error';
-import { mapValidationErrors } from 'src/modules/core/utils/map-validation-errors';
+import { IsIpPort } from 'src/core/decorators/is-ip-port.decorator';
+import { ConfigValidationError } from 'src/core/errors/config/config-validation.error';
+import { mapValidationErrors } from 'src/core/utils/map-validation-errors';
 
 export class KafkaClientConfig {
     @IsString()

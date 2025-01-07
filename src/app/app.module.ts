@@ -1,6 +1,6 @@
 import { DogsModule } from '../modules/dogs/dogs.module';
 import { CatsModule } from '../modules/cats/cats.module';
-import { CoreModule } from '../modules/core/core.module';
+import { CoreModule } from '../core/core.module';
 import { KafkaModule } from '../kafka/kafka.module';
 import { NotificationsGateway } from '../modules/notifications/notifications.gateway';
 

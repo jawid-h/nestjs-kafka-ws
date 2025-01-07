@@ -1,8 +1,8 @@
 import { registerAs } from '@nestjs/config';
 import { IsNotEmpty, IsString, validate, ValidateNested } from 'class-validator';
-import { mapValidationErrors } from 'src/modules/core/utils/map-validation-errors';
+import { mapValidationErrors } from 'src/core/utils/map-validation-errors';
 
-import { ConfigValidationError } from 'src/modules/core/errors/config/config-validation.error';
+import { ConfigValidationError } from 'src/core/errors/config/config-validation.error';
 import { Type } from 'class-transformer';
 
 import { PinoBaseTargetConfig } from './pino-base.config';

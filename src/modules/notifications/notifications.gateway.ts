@@ -15,7 +15,7 @@ import { ReadNotificationWSDto } from './dtos/read-notification-ws.dto';
 import { ObjectId } from 'mongodb';
 import { Socket } from 'net';
 import { UseFilters, ValidationPipe } from '@nestjs/common';
-import { WsExceptionFilter } from '../core/filters/ws-exception.filter';
+import { WsExceptionFilter } from '../../core/filters/ws-exception.filter';
 
 @WebSocketGateway({
     cors: {
