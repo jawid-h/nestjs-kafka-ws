@@ -53,7 +53,7 @@ import { DATABASE_SOURCE_SOURCE_A, DATABASE_SOURCE_SOURCE_B, DATABASE_SOURCE_SOU
                 fallbackLanguage: 'en',
                 loaderOptions: {
                     use: I18nJsonLoader,
-                    path: path.join(__dirname, '../../i18n/'),
+                    path: path.join(__dirname, '../i18n/'),
                     watch: true,
                 },
             }),
