@@ -1,0 +1,28 @@
+services:
+  local-postgres:
+    image: postgres:latest
+    container_name: postgres-db
+    ports:
+      - "5432:5432" 
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: testdb 
+    volumes:
+      - local-postgres-data:/var/lib/postgresql/data 
+
+  local-mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017" 
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: test
+      MONGO_INITDB_ROOT_PASSWORD: test
+      MONGO_INITDB_DATABASE: testdb 
+    volumes:
+      - local-mongo-data:/data/db
+
+volumes:
+  local-postgres-data: {} 
+  local-mongo-data: {}

@@ -1,0 +1,51 @@
+services:
+  keycloack:
+    extends:
+      file: docker-compose-keycloak.yml
+      service: keycloak
+  zoo1:
+    extends:
+      file: docker-compose-kafka.yml
+      service: zoo1
+  kafka-connect:
+    extends:
+      file: docker-compose-kafka.yml
+      service: kafka-connect
+  ksqldb-server:
+    extends:
+      file: docker-compose-kafka.yml
+      service: ksqldb-server
+  postgresql:
+    extends:
+      file: docker-compose-conductor.yml
+      service: postgresql
+  conduktor-console:
+    extends:
+      file: docker-compose-conductor.yml
+      service: conduktor-console
+  kafka1:
+    extends:
+      file: docker-compose-kafka.yml
+      service: kafka1
+  kafka-schema-registry:
+    extends:
+      file: docker-compose-kafka.yml
+      service: kafka-schema-registry
+  kafka-rest-proxy:
+    extends:
+      file: docker-compose-kafka.yml
+      service: kafka-rest-proxy
+  local-postgres:
+    extends:
+      file: docker-compose-db.yml
+      service: local-postgres
+  local-mongodb: 
+    extends:
+      file: docker-compose-db.yml
+      service: local-mongodb
+
+volumes:
+  pg_data: {}
+  conduktor_data: {}
+  local-postgres-data: {}
+  local-mongo-data: {}
