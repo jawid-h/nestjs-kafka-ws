@@ -1,4 +1,4 @@
-import { MongooseEntity } from 'src/modules/database/entities/base-mongoose.entity';
+import { MongooseEntity } from 'src/database/entities/base-mongoose.entity';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema({ timestamps: true, collection: 'cats' })

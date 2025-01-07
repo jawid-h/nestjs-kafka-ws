@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EventPattern } from '@nestjs/microservices';
-import { KAFKA_TOPIC_DECORATOR_META } from 'src/modules/kafka/constants/kafka-topic-decorator.constants';
+import { KAFKA_TOPIC_DECORATOR_META } from 'src/kafka/constants/kafka-topic-decorator.constants';
 
 @Injectable()
 export class KafkaTopicDecoratorProcessorService {

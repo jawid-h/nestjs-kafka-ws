@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import { NotificationEntity } from '../entities/notification.entity';
-import { RepositoryManager } from 'src/modules/database/repositories/repository-manager';
-import { BaseCRUDService } from 'src/modules/database/services/base-crud.service';
+import { RepositoryManager } from 'src/database/repositories/repository-manager';
+import { BaseCRUDService } from 'src/database/services/base-crud.service';
 import { ObjectId } from '@mikro-orm/mongodb';
 
 @Injectable()

@@ -9,7 +9,7 @@ import {
     TOPIC_NOTIFICATION_MARK_READ_RESPONSE,
     TOPIC_NOTIFICATION_RECEIVED,
 } from './constants/ws.constants';
-import { QueryDto } from '../database/dto/query/query.dto';
+import { QueryDto } from '../../database/dto/query/query.dto';
 import { NotificationDto } from './dtos/notification.dto';
 import { ReadNotificationWSDto } from './dtos/read-notification-ws.dto';
 import { ObjectId } from 'mongodb';

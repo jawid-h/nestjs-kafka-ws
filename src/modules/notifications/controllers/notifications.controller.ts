@@ -1,20 +1,20 @@
 import { Controller, Param, Post, Put } from '@nestjs/common';
 import { Ctx, KafkaContext, Payload } from '@nestjs/microservices';
-import { KafkaTopicFromConfig } from 'src/modules/kafka/decorators/kafka-topic.decorator';
+import { KafkaTopicFromConfig } from 'src/kafka/decorators/kafka-topic.decorator';
 import { NotificationsService } from '../services/notifications.service';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import { I18nService } from 'nestjs-i18n';
 import { NotificationEntity } from '../entities/notification.entity';
 import { NotificationDto } from '../dtos/notification.dto';
-import { QueryDto } from 'src/modules/database/dto/query/query.dto';
+import { QueryDto } from 'src/database/dto/query/query.dto';
 import { CreateNotificationDto } from '../dtos/create-notification.dto';
 import { ReadNotificationDto } from '../dtos/read-notification.dto';
 import { ObjectId } from 'mongodb';
 import { ApiParam, ApiResponse } from '@nestjs/swagger';
-import { ParseObjectIdPipe } from 'src/modules/database/pipes/object-id.pipe';
-import { AvroPayloadPipe } from 'src/modules/kafka/pipes/avro-payload.pipe';
-import { KafkaContextService } from 'src/modules/kafka/services/kafka-context.service';
-import { PaginatedResponseDto } from 'src/modules/database/dto/paginated-response.dto';
+import { ParseObjectIdPipe } from 'src/database/pipes/object-id.pipe';
+import { AvroPayloadPipe } from 'src/kafka/pipes/avro-payload.pipe';
+import { KafkaContextService } from 'src/kafka/services/kafka-context.service';
+import { PaginatedResponseDto } from 'src/database/dto/paginated-response.dto';
 import { NotificationsGateway } from '../notifications.gateway';
 
 @Controller('notifications')

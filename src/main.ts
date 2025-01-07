@@ -1,12 +1,12 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './modules/app/app.module';
+import { AppModule } from './app/app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
-import { KafkaTopicDecoratorProcessorService } from './modules/kafka/services/kafka-topic-decorator-processor.service';
+import { KafkaTopicDecoratorProcessorService } from './kafka/services/kafka-topic-decorator-processor.service';
 import { NotificationsController } from './modules/notifications/controllers/notifications.controller';
 import { Logger } from 'nestjs-pino';
-import { KafkaConfig } from './modules/kafka/config/kafka.config';
-import { AppConfig } from './modules/app/config/app.config';
+import { KafkaConfig } from './kafka/config/kafka.config';
+import { AppConfig } from './app/config/app.config';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 

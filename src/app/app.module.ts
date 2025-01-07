@@ -1,8 +1,8 @@
-import { DogsModule } from './../dogs/dogs.module';
-import { CatsModule } from './../cats/cats.module';
-import { CoreModule } from '../core/core.module';
-import { KafkaModule } from '../../modules/kafka/kafka.module';
-import { NotificationsGateway } from '../../modules/notifications/notifications.gateway';
+import { DogsModule } from '../modules/dogs/dogs.module';
+import { CatsModule } from '../modules/cats/cats.module';
+import { CoreModule } from '../modules/core/core.module';
+import { KafkaModule } from '../kafka/kafka.module';
+import { NotificationsGateway } from '../modules/notifications/notifications.gateway';
 
 import { Module } from '@nestjs/common';
 import { AppService } from './app.service';
@@ -11,9 +11,9 @@ import { NotificationsModule } from 'src/modules/notifications/notifications.mod
 import { LoggerModule } from 'nestjs-pino';
 
 // import configuration files separately
-import { kafkaConfig } from 'src/modules/kafka/config/kafka.config';
-import { appConfig } from 'src/modules/app/config/app.config';
-import { PinoConfig, pinoConfig } from 'src/modules/app/config/pino/pino.config';
+import { kafkaConfig } from 'src/kafka/config/kafka.config';
+import { appConfig } from 'src/app/config/app.config';
+import { PinoConfig, pinoConfig } from 'src/app/config/pino/pino.config';
 
 import pino from 'pino';
 import path from 'path';
@@ -22,7 +22,7 @@ import { MongoDriver } from '@mikro-orm/mongodb';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { notificationsConfig } from '../notifications/config/notifications.config';
+import { notificationsConfig } from '../modules/notifications/config/notifications.config';
 import { databaseConfig, DatabaseMikroormSourceConfig, DatabaseSourceConnectionType } from '../database/config/database.config';
 import { DATABASE_SOURCE_SOURCE_A, DATABASE_SOURCE_SOURCE_B, DATABASE_SOURCE_SOURCE_C } from './constants/database.constants';
 

@@ -26,7 +26,7 @@ export class RepositoryManager {
         private readonly modelManager?: ModelManager<any>,
     ) {}
 
-    getRepository<T>(entity: { new (): T }): CRUDRepositoryInterface<T, any, any> {
+    getRepository<T extends object>(entity: { new (): T }): CRUDRepositoryInterface<T, any, any> {
         if (entity.prototype instanceof TypeOrmEntity) {
             if (!this.typeormDataSource) {
                 throw new Error('TypeORM DataSource is required for TypeORM entities');

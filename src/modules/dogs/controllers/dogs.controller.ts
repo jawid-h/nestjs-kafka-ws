@@ -1,7 +1,7 @@
 import { Controller, Post } from '@nestjs/common';
 import { DogsService } from '../services/dogs.service';
 import { Payload } from '@nestjs/microservices';
-import { QueryDto } from 'src/modules/database/dto/query/query.dto';
+import { QueryDto } from 'src/database/dto/query/query.dto';
 import { DogDto } from '../dtos/dog.dto';
 
 @Controller('dogs')
