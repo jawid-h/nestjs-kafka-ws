@@ -31,7 +31,7 @@ export class NotificationsGateway {
         private readonly notificationsService: NotificationsService,
         @InjectPinoLogger(NotificationsGateway.name)
         private readonly logger: PinoLogger,
-    ) {}
+    ) { }
 
     @SubscribeMessage(TOPIC_NOTIFICATION_LIST)
     async getNotificationList(
@@ -54,7 +54,7 @@ export class NotificationsGateway {
     ) {
         this.logger.debug({ data }, 'marking notification as read');
 
-        const result = await this.notificationsService.update(ObjectId.createFromHexString(data.id), { isRead: true });
+        const result = await this.notificationsService.update(ObjectId.createFromHexString(data.id), {});
 
         client.emit(TOPIC_NOTIFICATION_MARK_READ_RESPONSE, result);
     }

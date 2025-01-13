@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsMongoId, IsBoolean, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsMongoId, IsNumber } from 'class-validator';
 
 export class NotificationDto {
     @IsMongoId()
@@ -6,17 +6,19 @@ export class NotificationDto {
 
     @IsString()
     @IsNotEmpty()
-    title: string;
+    loanAppId: string;
 
     @IsString()
     @IsNotEmpty()
-    body: string;
+    status: string;
 
-    @IsNumber()
-    test: number;
+    @IsString()
+    @IsNotEmpty()
+    timer: string;
 
-    @IsBoolean()
-    isRead: boolean;
+    @IsString()
+    @IsNotEmpty()
+    text: string;
 
     @IsNumber()
     @IsNotEmpty()

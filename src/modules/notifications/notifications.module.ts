@@ -6,6 +6,7 @@ import { KafkaModule } from '../../kafka/kafka.module';
 import { NotificationEntity } from './entities/notification.entity';
 import { DatabaseModule } from '../../database/database.module';
 import { DATABASE_SOURCE_SOURCE_A } from '../../app/constants/database.constants';
+import { ClientsModule } from 'src/clients/clients.module';
 
 @Module({
     imports: [
@@ -16,9 +17,10 @@ import { DATABASE_SOURCE_SOURCE_A } from '../../app/constants/database.constants
                 contextName: DATABASE_SOURCE_SOURCE_A,
             },
         }),
+        ClientsModule,
     ],
     controllers: [NotificationsController],
     providers: [NotificationsService, NotificationsGateway],
     exports: [NotificationsService],
 })
-export class NotificationsModule {}
+export class NotificationsModule { }

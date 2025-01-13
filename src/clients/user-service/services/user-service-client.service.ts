@@ -16,7 +16,7 @@ export class UserServiceClientService implements OnModuleInit {
         private readonly configService: ConfigService,
         @InjectPinoLogger(UserServiceClientService.name)
         readonly logger: PinoLogger,
-    ) {}
+    ) { }
 
     async onModuleInit() {
         const authConfig = this.configService.get<UserServiceClientAuthConfig>('clients.userServiceClient.auth');
@@ -57,26 +57,6 @@ export class UserServiceClientService implements OnModuleInit {
 
             return config;
         });
-    }
-
-    public async getUsersByUsername(username: string): Promise<UserDto[]> {
-        const {
-            data: {
-                object: { items: userList },
-            },
-        } = await this.httpService.axiosRef.post<UserListResponseDto>(USER_LIST_HANDLER, {
-            filters: [
-                {
-                    field: 'login',
-                    operator: 'eq',
-                    value: username,
-                },
-            ],
-            page: 1,
-            size: 100,
-        });
-
-        return userList;
     }
 
     public async getUsersByRole(role: string): Promise<UserDto[]> {

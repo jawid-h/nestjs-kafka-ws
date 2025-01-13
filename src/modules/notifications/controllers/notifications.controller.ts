@@ -8,7 +8,6 @@ import { NotificationEntity } from '../entities/notification.entity';
 import { NotificationDto } from '../dtos/notification.dto';
 import { QueryDto } from 'src/database/dto/query/query.dto';
 import { CreateNotificationDto } from '../dtos/create-notification.dto';
-import { ReadNotificationDto } from '../dtos/read-notification.dto';
 import { ObjectId } from 'mongodb';
 import { ApiParam, ApiResponse } from '@nestjs/swagger';
 import { ParseObjectIdPipe } from 'src/database/pipes/object-id.pipe';
@@ -26,7 +25,7 @@ export class NotificationsController {
         @InjectPinoLogger(NotificationsController.name)
         private readonly logger: PinoLogger,
         private readonly i18n: I18nService,
-    ) {}
+    ) { }
 
     @Post('list')
     @ApiResponse({ type: PaginatedResponseDto })
@@ -36,16 +35,17 @@ export class NotificationsController {
 
     @Put(':id/read')
     @ApiParam({ name: 'id', type: String })
-    async markRead(@Param('id', ParseObjectIdPipe) id: ObjectId, @Payload() data: ReadNotificationDto) {
-        return this.notificationService.update(id, data);
+    async markRead(@Param('id', ParseObjectIdPipe) id: ObjectId) {
+        // TODO: figure out how to update the notification
+        return this.notificationService.update(id, {} as Partial<NotificationEntity>);
     }
 
     @KafkaTopicFromConfig('notifications.kafkaTopics.notifications')
     async onNotificationReceived(
-        @Payload(AvroPayloadPipe) notification: CreateNotificationDto,
+        @Payload() notification: CreateNotificationDto,
         @Ctx() kafkaContext: KafkaContext,
     ) {
-        const createdNotification = await this.notificationService.create(notification);
+        const createdNotification = await this.notificationService.populateAndCreateNotification(notification);
 
         await this.kafkaContextService.commitOffsets(kafkaContext);
 
