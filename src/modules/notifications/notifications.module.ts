@@ -6,7 +6,6 @@ import { KafkaModule } from '../../kafka/kafka.module';
 import { NotificationEntity } from './entities/notification.entity';
 import { DatabaseModule } from '../../database/database.module';
 import { DATABASE_SOURCE_SOURCE_A } from '../../app/constants/database.constants';
-import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
     imports: [
@@ -17,7 +16,6 @@ import { AuthModule } from 'src/auth/auth.module';
                 contextName: DATABASE_SOURCE_SOURCE_A,
             },
         }),
-        AuthModule,
     ],
     controllers: [NotificationsController],
     providers: [NotificationsService, NotificationsGateway],
