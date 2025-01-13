@@ -14,6 +14,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { kafkaConfig } from 'src/kafka/config/kafka.config';
 import { appConfig } from 'src/app/config/app.config';
 import { PinoConfig, pinoConfig } from 'src/app/config/pino/pino.config';
+import { authConfig } from 'src/auth/config/auth.config';
 
 import pino from 'pino';
 import path from 'path';
@@ -25,12 +26,13 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { notificationsConfig } from '../modules/notifications/config/notifications.config';
 import { databaseConfig, DatabaseMikroormSourceConfig, DatabaseSourceConnectionType } from '../database/config/database.config';
 import { DATABASE_SOURCE_SOURCE_A, DATABASE_SOURCE_SOURCE_B, DATABASE_SOURCE_SOURCE_C } from './constants/database.constants';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
-            load: [appConfig, kafkaConfig, pinoConfig, notificationsConfig, databaseConfig],
+            load: [appConfig, kafkaConfig, pinoConfig, notificationsConfig, databaseConfig, authConfig],
         }),
         LoggerModule.forRootAsync({
             imports: [ConfigModule],
@@ -115,6 +117,7 @@ import { DATABASE_SOURCE_SOURCE_A, DATABASE_SOURCE_SOURCE_B, DATABASE_SOURCE_SOU
         NotificationsModule,
         CatsModule,
         DogsModule,
+        AuthModule,
     ],
     providers: [NotificationsGateway, AppService],
 })
