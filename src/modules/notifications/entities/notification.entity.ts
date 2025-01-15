@@ -16,6 +16,6 @@ export class NotificationEntity extends MikroOrmMongoEntity {
     @Property()
     text: string;
 
-    @OneToMany(() => NotificationReadEntryEntity, (read) => read.notification)
-    readsEntries = new Collection<NotificationReadEntryEntity>(this);
+    @OneToMany(() => NotificationReadEntryEntity, (entry) => entry.notification)
+    readEntries = new Collection<NotificationReadEntryEntity>(this);
 }

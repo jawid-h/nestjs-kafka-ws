@@ -6,7 +6,6 @@ import { BaseCRUDService } from 'src/database/services/base-crud.service';
 import { ObjectId } from '@mikro-orm/mongodb';
 import { CreateNotificationDto } from '../dtos/create-notification.dto';
 import { UserServiceClientService } from '../../../clients/user-service/services/user-service-client.service';
-import { UserDto } from 'src/clients/user-service/dtos/user.dto';
 import { NotificationReadEntryEntity } from '../entities/notification-read-entry.entity';
 
 @Injectable()
@@ -20,8 +19,26 @@ export class NotificationsService extends BaseCRUDService<NotificationEntity, Ob
         super(repositoryManager.getRepository(NotificationEntity), logger);
     }
 
+    public async markRead(id: ObjectId, username: string): Promise<NotificationEntity> {
+        const notification = await this.findOne(id);
+
+        if (!notification) {
+            return null;
+        }
+
+        const readEntry = notification.readEntries.find((entry) => entry.username === username);
+
+        if (readEntry) {
+            readEntry.readAt = new Date();
+        }
+
+        await this.update(id, notification);
+
+        return notification;
+    }
+
     public async populateAndCreateNotification(data: CreateNotificationDto): Promise<NotificationEntity> {
-        // We need to gather the list of usernames that are passed through 
+        // We need to gather the list of usernames that are passed through
         // Then we need to receive list of all usernames if only role is passed
         // Then we need to combine those removing duplicates
         const usernamesPassed: string[] = data.users
@@ -29,17 +46,18 @@ export class NotificationsService extends BaseCRUDService<NotificationEntity, Ob
             .map((user) => user.login);
 
         const emptyUsernamesRoles: string[] = data.users
-            .filter((user) => user.login === undefined || user.login === null || user.login !== '')
+            .filter((user) => user.login === undefined || user.login === null || user.login === '')
             .map((user) => user.role);
 
-        const usernListsByRole: UserDto[][] = await Promise.all(
-            emptyUsernamesRoles.map((role) => this.userServicesClient.getUsersByRole(role)),
-        );
+        const resultUsernames: Set<string> = new Set(usernamesPassed);
 
-        const usernamesByRole: string[] = usernListsByRole
-            .reduce((usernames: string[], userList: UserDto[]) => usernames.concat(userList.map((user) => user.login)), []);
+        if (emptyUsernamesRoles.length > 0) {
+            const usernamesByRoles: string[] = (await this.userServicesClient.getUsersByRoles(emptyUsernamesRoles)).map(
+                (user) => user.login,
+            );
 
-        const resultUsernames: Set<string> = new Set([...usernamesPassed, ...usernamesByRole]);
+            usernamesByRoles.forEach((username) => resultUsernames.add(username));
+        }
 
         const notification = new NotificationEntity();
 
@@ -53,7 +71,7 @@ export class NotificationsService extends BaseCRUDService<NotificationEntity, Ob
             readEntry.username = username;
             readEntry.readAt = null;
 
-            notification.readsEntries.add(readEntry);
+            notification.readEntries.add(readEntry);
         });
 
         await this.create(notification);

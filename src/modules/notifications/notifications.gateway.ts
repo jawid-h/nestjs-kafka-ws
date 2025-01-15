@@ -31,7 +31,7 @@ export class NotificationsGateway {
         private readonly notificationsService: NotificationsService,
         @InjectPinoLogger(NotificationsGateway.name)
         private readonly logger: PinoLogger,
-    ) { }
+    ) {}
 
     @SubscribeMessage(TOPIC_NOTIFICATION_LIST)
     async getNotificationList(
