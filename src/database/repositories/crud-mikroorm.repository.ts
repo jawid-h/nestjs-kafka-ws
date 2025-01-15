@@ -45,7 +45,7 @@ export class CRUDMikroOrmRepository<T extends object, ID> implements CRUDReposit
     }
 
     async findOne(id: ID): Promise<T | null> {
-        return this.repository.findOne(id);
+        return this.repository.findOne(id, { populate: '*' } as any);
     }
 
     async create(data: Partial<T>): Promise<T> {

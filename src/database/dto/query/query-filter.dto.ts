@@ -15,6 +15,6 @@ export class QueryFilterDto<T> implements QueryFilterInterface<T> {
     operator: FilterOperator;
 
     @ApiProperty({ required: true })
-    @IsNotEmpty()
+    @IsString()
     value: QueryValue<T, QueryPath<T>>;
 }
