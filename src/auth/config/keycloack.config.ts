@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsUrl, validate } from 'class-validator';
+import { IsNotEmpty, IsString, validate } from 'class-validator';
 import { ConfigValidationError } from 'src/core/errors/config/config-validation.error';
 import { mapValidationErrors } from 'src/core/utils/map-validation-errors';
 
@@ -17,7 +17,6 @@ export class KeycloackConfig {
 
     @IsString()
     @IsNotEmpty()
-    @IsUrl()
     authServerURL: string;
 
     public static async fromEnv(env: Record<string, string>): Promise<KeycloackConfig> {
