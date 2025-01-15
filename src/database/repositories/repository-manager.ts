@@ -11,6 +11,7 @@ import { PROVIDER_MIKRO_ORM, PROVIDER_MONGOOSE, PROVIDER_TYPE_ORM } from '../con
 import { MikroORM } from '@mikro-orm/core';
 import { MikroOrmMongoEntity } from '../entities/base-mongo-mikroorm.entity';
 import { MikroOrmPostgresqlEntity } from '../entities/base-postgresql-mikroorm.entity';
+import { CRUDMikroOrmMongoRepository } from './crud-mikroorm-mongo.repository';
 
 @Injectable()
 export class RepositoryManager {
@@ -33,12 +34,18 @@ export class RepositoryManager {
             }
 
             return new CRUDTypeOrmRepository(this.typeormDataSource.getRepository(entity));
-        } else if (entity.prototype instanceof MikroOrmMongoEntity || entity.prototype instanceof MikroOrmPostgresqlEntity) {
+        } else if (entity.prototype instanceof MikroOrmPostgresqlEntity) {
             if (!this.orm) {
                 throw new Error('MikroORM is required for MikroORM entities');
             }
 
             return new CRUDMikroOrmRepository(this.orm, entity);
+        } else if (entity.prototype instanceof MikroOrmMongoEntity) {
+            if (!this.orm) {
+                throw new Error('MikroORM is required for MikroORM entities');
+            }
+
+            return new CRUDMikroOrmMongoRepository(this.orm, entity);
         } else if (entity.prototype instanceof MongooseEntity) {
             if (!this.modelManager) {
                 throw new Error('ModelManager is required for Mongoose entities');

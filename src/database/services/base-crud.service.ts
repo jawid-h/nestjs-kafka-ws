@@ -5,7 +5,7 @@ import { PaginatedResponseDto } from '../dto/paginated-response.dto';
 
 export abstract class BaseCRUDService<T, ID> {
     constructor(
-        private readonly repository: CRUDRepositoryInterface<T, ID, any>,
+        protected readonly repository: CRUDRepositoryInterface<T, ID, any>,
         readonly logger: PinoLogger,
     ) {}
 
