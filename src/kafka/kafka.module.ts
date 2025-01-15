@@ -5,25 +5,49 @@ import { KafkaConfig } from './config/kafka.config';
 import { KafkaTopicDecoratorProcessorService } from './services/kafka-topic-decorator-processor.service';
 import { KafkaContextService } from './services/kafka-context.service';
 
-@Module({
-    imports: [
-        SchemaRegistryModule.registerAsync({
-            imports: [ConfigModule],
-            inject: [ConfigService],
-            useFactory: (configService: ConfigService) => {
-                const kafkaConfig = configService.get<KafkaConfig>('kafka');
+export interface KafkaModuleOptions {
+    useSchemaRegistry: boolean;
+}
 
-                return {
-                    host: kafkaConfig.schemaRegistry.url,
-                    auth: {
-                        username: kafkaConfig.schemaRegistry.username,
-                        password: kafkaConfig.schemaRegistry.password,
-                    },
-                };
-            },
-        }),
-    ],
-    providers: [KafkaTopicDecoratorProcessorService, KafkaContextService],
-    exports: [SchemaRegistryModule, KafkaTopicDecoratorProcessorService, KafkaContextService],
-})
-export class KafkaModule {}
+@Module({})
+export class KafkaModule {
+    static register(options: KafkaModuleOptions) {
+        const imports = [];
+        const providers = [
+            KafkaTopicDecoratorProcessorService,
+            KafkaContextService,
+        ];
+
+        const exports: any[] = [
+            KafkaTopicDecoratorProcessorService,
+            KafkaContextService,
+        ];
+
+        if (options.useSchemaRegistry) {
+            imports.push(SchemaRegistryModule.registerAsync({
+                imports: [ConfigModule],
+                inject: [ConfigService],
+                useFactory: (configService: ConfigService) => {
+                    const kafkaConfig = configService.get<KafkaConfig>('kafka');
+
+                    return {
+                        host: kafkaConfig.schemaRegistry.url,
+                        auth: {
+                            username: kafkaConfig.schemaRegistry.username,
+                            password: kafkaConfig.schemaRegistry.password,
+                        },
+                    };
+                },
+            }));
+
+            exports.push(SchemaRegistryModule);
+        }
+
+        return {
+            module: KafkaModule,
+            imports,
+            providers,
+            exports,
+        };
+    }
+}

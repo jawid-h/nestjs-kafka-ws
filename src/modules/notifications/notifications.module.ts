@@ -10,7 +10,9 @@ import { ClientsModule } from 'src/clients/clients.module';
 
 @Module({
     imports: [
-        KafkaModule,
+        KafkaModule.register({
+            useSchemaRegistry: false,
+        }),
         DatabaseModule.forFeature({
             mikroORMOptions: {
                 entities: [NotificationEntity],
@@ -23,4 +25,4 @@ import { ClientsModule } from 'src/clients/clients.module';
     providers: [NotificationsService, NotificationsGateway],
     exports: [NotificationsService],
 })
-export class NotificationsModule {}
+export class NotificationsModule { }
