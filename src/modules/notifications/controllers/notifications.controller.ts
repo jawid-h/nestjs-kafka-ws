@@ -24,7 +24,7 @@ export class NotificationsController {
         @InjectPinoLogger(NotificationsController.name)
         private readonly logger: PinoLogger,
         private readonly i18n: I18nService,
-    ) { }
+    ) {}
 
     @Post('list')
     @ApiResponse({ type: PaginatedResponseDto })

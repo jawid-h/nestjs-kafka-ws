@@ -13,32 +13,28 @@ export interface KafkaModuleOptions {
 export class KafkaModule {
     static register(options: KafkaModuleOptions) {
         const imports = [];
-        const providers = [
-            KafkaTopicDecoratorProcessorService,
-            KafkaContextService,
-        ];
+        const providers = [KafkaTopicDecoratorProcessorService, KafkaContextService];
 
-        const exports: any[] = [
-            KafkaTopicDecoratorProcessorService,
-            KafkaContextService,
-        ];
+        const exports: any[] = [KafkaTopicDecoratorProcessorService, KafkaContextService];
 
         if (options.useSchemaRegistry) {
-            imports.push(SchemaRegistryModule.registerAsync({
-                imports: [ConfigModule],
-                inject: [ConfigService],
-                useFactory: (configService: ConfigService) => {
-                    const kafkaConfig = configService.get<KafkaConfig>('kafka');
+            imports.push(
+                SchemaRegistryModule.registerAsync({
+                    imports: [ConfigModule],
+                    inject: [ConfigService],
+                    useFactory: (configService: ConfigService) => {
+                        const kafkaConfig = configService.get<KafkaConfig>('kafka');
 
-                    return {
-                        host: kafkaConfig.schemaRegistry.url,
-                        auth: {
-                            username: kafkaConfig.schemaRegistry.username,
-                            password: kafkaConfig.schemaRegistry.password,
-                        },
-                    };
-                },
-            }));
+                        return {
+                            host: kafkaConfig.schemaRegistry.url,
+                            auth: {
+                                username: kafkaConfig.schemaRegistry.username,
+                                password: kafkaConfig.schemaRegistry.password,
+                            },
+                        };
+                    },
+                }),
+            );
 
             exports.push(SchemaRegistryModule);
         }

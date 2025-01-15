@@ -25,4 +25,4 @@ import { ClientsModule } from 'src/clients/clients.module';
     providers: [NotificationsService, NotificationsGateway],
     exports: [NotificationsService],
 })
-export class NotificationsModule { }
+export class NotificationsModule {}
