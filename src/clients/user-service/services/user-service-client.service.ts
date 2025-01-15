@@ -16,7 +16,7 @@ export class UserServiceClientService implements OnModuleInit {
         private readonly configService: ConfigService,
         @InjectPinoLogger(UserServiceClientService.name)
         readonly logger: PinoLogger,
-    ) { }
+    ) {}
 
     async onModuleInit() {
         const authConfig = this.configService.get<UserServiceClientAuthConfig>('clients.userServiceClient.auth');
@@ -59,22 +59,26 @@ export class UserServiceClientService implements OnModuleInit {
         });
     }
 
-    public async getUsersByRole(role: string): Promise<UserDto[]> {
-        const {
-            data: {
-                object: { items: userList },
-            },
-        } = await this.httpService.axiosRef.post<UserListResponseDto>(USER_LIST_HANDLER, {
+    public async getUsersByRoles(roles: string[]): Promise<UserDto[]> {
+        this.logger.debug({ roles }, 'getting users by roles');
+
+        const filterQuery = {
             filters: [
                 {
                     field: 'roles',
                     operator: 'in',
-                    value: role,
+                    value: roles,
                 },
             ],
             page: 1,
             size: 100,
-        });
+        };
+
+        const {
+            data: {
+                object: { items: userList },
+            },
+        } = await this.httpService.axiosRef.post<UserListResponseDto>(USER_LIST_HANDLER, filterQuery);
 
         return userList;
     }
