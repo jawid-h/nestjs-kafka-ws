@@ -124,4 +124,4 @@ import { ClientsModule } from 'src/clients/clients.module';
     ],
     providers: [NotificationsGateway, AppService],
 })
-export class AppModule { }
+export class AppModule {}
