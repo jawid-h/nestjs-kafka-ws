@@ -7,6 +7,7 @@ import { NotificationEntity } from './entities/notification.entity';
 import { DatabaseModule } from '../../database/database.module';
 import { DATABASE_SOURCE_SOURCE_A } from '../../app/constants/database.constants';
 import { ClientsModule } from 'src/clients/clients.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { ClientsModule } from 'src/clients/clients.module';
             },
         }),
         ClientsModule,
+        AuthModule,
     ],
     controllers: [NotificationsController],
     providers: [NotificationsService, NotificationsGateway],

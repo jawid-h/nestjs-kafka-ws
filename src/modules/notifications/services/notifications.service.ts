@@ -19,6 +19,25 @@ export class NotificationsService extends BaseCRUDService<NotificationEntity, Ob
         super(repositoryManager.getRepository(NotificationEntity), logger);
     }
 
+    public async findUnread(username: string): Promise<NotificationEntity[]> {
+        const query: any = {
+            filter: [
+                {
+                    path: 'readEntries.username',
+                    operator: '==',
+                    value: username,
+                },
+                {
+                    path: 'readEntries.readAt',
+                    operator: '==',
+                    value: 'null',
+                },
+            ],
+        };
+
+        return this.findAll(query);
+    }
+
     public async markRead(id: ObjectId, username: string): Promise<NotificationEntity> {
         const notification = await this.findOne(id);
 

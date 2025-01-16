@@ -1,4 +1,4 @@
-import { Controller, Param, Post, Put } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { Ctx, KafkaContext, Payload } from '@nestjs/microservices';
 import { KafkaTopicFromConfig } from 'src/kafka/decorators/kafka-topic.decorator';
 import { NotificationsService } from '../services/notifications.service';
@@ -9,13 +9,16 @@ import { NotificationDto } from '../dtos/notification.dto';
 import { QueryDto } from 'src/database/dto/query/query.dto';
 import { CreateNotificationDto } from '../dtos/create-notification.dto';
 import { ObjectId } from 'mongodb';
-import { ApiParam, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { ParseObjectIdPipe } from 'src/database/pipes/object-id.pipe';
 import { KafkaContextService } from 'src/kafka/services/kafka-context.service';
 import { PaginatedResponseDto } from 'src/database/dto/paginated-response.dto';
 import { NotificationsGateway } from '../notifications.gateway';
+import { AuthenticatedUser, AuthGuard } from 'nest-keycloak-connect';
 
 @Controller('notifications')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 export class NotificationsController {
     constructor(
         private readonly notificationService: NotificationsService,
@@ -32,10 +35,19 @@ export class NotificationsController {
         return this.notificationService.findAllPaginated(query);
     }
 
+    @Get('unread')
+    async getUnreadNotifications(@AuthenticatedUser() user: any): Promise<NotificationEntity[]> {
+        const username = user?.preferred_username;
+
+        return this.notificationService.findUnread(username);
+    }
+
     @Put(':id/read')
     @ApiParam({ name: 'id', type: String })
-    async markRead(@Param('id', ParseObjectIdPipe) id: ObjectId) {
-        return this.notificationService.markRead(id, 'testuser');
+    async markRead(@Param('id', ParseObjectIdPipe) id: ObjectId, @AuthenticatedUser() user: any) {
+        const username = user?.preferred_username;
+
+        return this.notificationService.markRead(id, username);
     }
 
     @KafkaTopicFromConfig('notifications.kafkaTopics.notifications')
