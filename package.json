@@ -1,8 +1,8 @@
 {
-  "name": "kafka-ws",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "name": "notification-service",
+  "version": "0.1.0",
+  "description": "Push notification service for CCLE",
+  "author": "team@keysoft.uz",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
