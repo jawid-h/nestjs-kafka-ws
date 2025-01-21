@@ -1,5 +1,3 @@
-import { DogsModule } from '../modules/dogs/dogs.module';
-import { CatsModule } from '../modules/cats/cats.module';
 import { CoreModule } from '../core/core.module';
 import { KafkaModule } from '../kafka/kafka.module';
 import { NotificationsGateway } from '../modules/notifications/notifications.gateway';
@@ -22,11 +20,10 @@ import path from 'path';
 import { HeaderResolver, I18nJsonLoader, I18nModule } from 'nestjs-i18n';
 import { MongoDriver } from '@mikro-orm/mongodb';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { MongooseModule } from '@nestjs/mongoose';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { notificationsConfig } from '../modules/notifications/config/notifications.config';
 import { databaseConfig, DatabaseMikroormSourceConfig, DatabaseSourceConnectionType } from '../database/config/database.config';
-import { DATABASE_SOURCE_SOURCE_A, DATABASE_SOURCE_SOURCE_B, DATABASE_SOURCE_SOURCE_C } from './constants/database.constants';
+import { DATABASE_SOURCE_SOURCE_A } from './constants/database.constants';
 import { AuthModule } from 'src/auth/auth.module';
 import { ClientsModule } from 'src/clients/clients.module';
 
@@ -81,47 +78,13 @@ import { ClientsModule } from 'src/clients/clients.module';
             },
             inject: [ConfigService],
         }),
-        MikroOrmModule.forRootAsync({
-            contextName: DATABASE_SOURCE_SOURCE_B,
-            useFactory: (configService: ConfigService) => {
-                const databaseConfig = configService.get('database');
-
-                const sourceConfig: DatabaseMikroormSourceConfig = databaseConfig.sources[DATABASE_SOURCE_SOURCE_B];
-
-                return {
-                    driver: sourceConfig.connectionType === DatabaseSourceConnectionType.Mongodb ? MongoDriver : PostgreSqlDriver,
-                    clientUrl: sourceConfig.connectionString,
-                    dbName: sourceConfig.databaseName,
-                    entities: sourceConfig.entityModules,
-                    entitiesTs: sourceConfig.entityModulesTs,
-                    registerRequestContext: false,
-                };
-            },
-            inject: [ConfigService],
-        }),
         MikroOrmModule.forMiddleware(),
-        MongooseModule.forRootAsync({
-            connectionName: DATABASE_SOURCE_SOURCE_C,
-            useFactory: (configService: ConfigService) => {
-                const databaseConfig = configService.get('database');
-
-                const sourceConfig = databaseConfig.sources[DATABASE_SOURCE_SOURCE_A];
-
-                return {
-                    uri: sourceConfig.connectionString,
-                    dbName: sourceConfig.databaseName,
-                };
-            },
-            inject: [ConfigService],
-        }),
         CoreModule,
         KafkaModule,
         NotificationsModule,
-        CatsModule,
-        DogsModule,
         ClientsModule,
         AuthModule,
     ],
     providers: [NotificationsGateway, AppService],
 })
-export class AppModule {}
+export class AppModule { }
