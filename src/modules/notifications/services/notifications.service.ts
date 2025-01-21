@@ -20,6 +20,7 @@ export class NotificationsService extends BaseCRUDService<NotificationEntity, Ob
     }
 
     public async findUnread(username: string): Promise<NotificationEntity[]> {
+        // TODO: should we have a proper typings here?
         const query: any = {
             filter: [
                 {

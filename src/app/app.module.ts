@@ -74,6 +74,7 @@ import { ClientsModule } from 'src/clients/clients.module';
                     entities: sourceConfig.entityModules,
                     entitiesTs: sourceConfig.entityModulesTs,
                     registerRequestContext: false,
+                    ensureIndexes: true,
                 };
             },
             inject: [ConfigService],
@@ -87,4 +88,4 @@ import { ClientsModule } from 'src/clients/clients.module';
     ],
     providers: [NotificationsGateway, AppService],
 })
-export class AppModule {}
+export class AppModule { }
