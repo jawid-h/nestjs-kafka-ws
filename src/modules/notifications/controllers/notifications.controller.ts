@@ -15,6 +15,7 @@ import { KafkaContextService } from 'src/kafka/services/kafka-context.service';
 import { PaginatedResponseDto } from 'src/database/dto/paginated-response.dto';
 import { NotificationsGateway } from '../notifications.gateway';
 import { AuthenticatedUser, AuthGuard } from 'nest-keycloak-connect';
+import { KeycloackAuthenticatedUser } from 'src/auth/types/authenticated-user.type';
 
 @Controller('notifications')
 @UseGuards(AuthGuard)
@@ -36,7 +37,7 @@ export class NotificationsController {
     }
 
     @Get('unread')
-    async getUnreadNotifications(@AuthenticatedUser() user: any): Promise<NotificationEntity[]> {
+    async getUnreadNotifications(@AuthenticatedUser() user: KeycloackAuthenticatedUser): Promise<NotificationEntity[]> {
         const username = user?.preferred_username;
 
         return this.notificationService.findUnread(username);
@@ -44,7 +45,7 @@ export class NotificationsController {
 
     @Put(':id/read')
     @ApiParam({ name: 'id', type: String })
-    async markRead(@Param('id', ParseObjectIdPipe) id: ObjectId, @AuthenticatedUser() user: any) {
+    async markRead(@Param('id', ParseObjectIdPipe) id: ObjectId, @AuthenticatedUser() user: KeycloackAuthenticatedUser) {
         const username = user?.preferred_username;
 
         return this.notificationService.markRead(id, username);
