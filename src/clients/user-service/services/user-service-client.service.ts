@@ -11,6 +11,9 @@ import { UserListResponseDto } from '../dtos/user-list-response.dto';
 
 @Injectable({ scope: Scope.DEFAULT })
 export class UserServiceClientService implements OnModuleInit {
+    // Since we have a Singleton service, we can store the token in a private variable
+    private token: string;
+
     constructor(
         private readonly httpService: HttpService,
         private readonly configService: ConfigService,
@@ -19,9 +22,46 @@ export class UserServiceClientService implements OnModuleInit {
     ) {}
 
     async onModuleInit() {
-        const authConfig = this.configService.get<UserServiceClientAuthConfig>('clients.userServiceClient.auth');
+        await this.authenticate();
 
-        let token: string;
+        // Attach the Authorization token to requests
+        this.httpService.axiosRef.interceptors.request.use((config) => {
+            if (this.token) {
+                config.headers['Authorization'] = `Bearer ${this.token}`;
+            }
+
+            return config;
+        });
+
+        // Attach a response interceptor for handling 401 errors
+        this.httpService.axiosRef.interceptors.response.use(
+            (response) => response,
+            async (error) => {
+                if (error.response?.status === 401) {
+                    this.logger.warn('Received 401 Unauthorized. Attempting to re-authenticate...');
+
+                    try {
+                        await this.authenticate();
+
+                        error.config.headers['Authorization'] = `Bearer ${this.token}`;
+
+                        this.logger.debug('Retrying the failed request with new token...');
+
+                        return this.httpService.axiosRef.request(error.config);
+                    } catch (reAuthError) {
+                        this.logger.error('Re-authentication failed', { error: reAuthError });
+
+                        throw reAuthError;
+                    }
+                }
+
+                return Promise.reject(error);
+            },
+        );
+    }
+
+    private async authenticate() {
+        const authConfig = this.configService.get<UserServiceClientAuthConfig>('clients.userServiceClient.auth');
         try {
             const {
                 data: { object: authData },
@@ -40,23 +80,14 @@ export class UserServiceClientService implements OnModuleInit {
                 },
             );
 
-            token = authData.accessToken;
+            this.token = authData.accessToken;
 
-            this.logger.debug({ token }, 'got auth token for user service');
+            this.logger.debug({ token: this.token }, 'Authenticated successfully and obtained new token');
         } catch (error) {
-            // TODO: handle someway and re-throw
-            throw error;
-        }
+            this.logger.error('Failed to authenticate with user service', { error });
 
-        if (!token) {
             throw new Error('Failed to authenticate with user service');
         }
-
-        this.httpService.axiosRef.interceptors.request.use((config) => {
-            config.headers['Authorization'] = `Bearer ${token}`;
-
-            return config;
-        });
     }
 
     public async getUsersByRoles(roles: string[]): Promise<UserDto[]> {
